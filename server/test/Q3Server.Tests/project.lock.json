@@ -1536,7 +1536,7 @@
     },
     "NLog/4.2.3": {
       "type": "package",
-      "sha512": "j6ZuwmXtiRUdlmon8ekYTKYFuQuIVi3ACJm7izHZL9KMmX2x/5Dvi98/EE7wcFNwmSz85QTITKYU4Q04u6VXSg==",
+      "sha512": "Vm2NWD8qv45ySQYhCHERw4G5vMgKDcdYqmZZHJizibc6/z4/a6hUsJ9t/lLRpTXRCbnUojD4ALDx3TOmW+PvnQ==",
       "files": [
         "lib/net35/NLog.dll",
         "lib/net35/NLog.xml",
