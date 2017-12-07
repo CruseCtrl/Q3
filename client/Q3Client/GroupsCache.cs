@@ -58,7 +58,7 @@ namespace Q3Client
                         .OrderBy(s => s)
                         .ToList();
 
-                newGroups.Add("Office - Bristol");
+                newGroups.Add("Office - London");
 
                 this.Groups = newGroups;
                 DataCache.Save(new DataCache.ListContainer<string>(Groups), "Groups");
