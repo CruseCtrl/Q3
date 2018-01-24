@@ -20,7 +20,7 @@ namespace Q3Client
     /// </summary>
     public partial class NewQueue : Window
     {
-        private readonly string[] defaultGroups = { "Office - London", "Office - Bristol", "Office - Romania" };
+        private readonly string[] defaultGroups = { "Office - London", "Office - Bristol", "Office - Romania", "All" };
 
         private readonly GroupsCache groupsCache;
 
@@ -77,7 +77,7 @@ namespace Q3Client
                 if (QueueName.Text == queueName)
                 {
                     // BitmapImage here gives an odd error - https://wpfanimatedgif.codeplex.com/discussions/439040
-                    var image = BitmapFrame.Create(new Uri("https://softwire.ontoast.io/hashtags/image/" + hashtag, UriKind.Absolute));
+                    var image = BitmapFrame.Create(new Uri("https://ontoast-ghyston.azurewebsites.net/hashtags/image/" + hashtag, UriKind.Absolute));
 
                     ImageBehavior.SetAnimatedSource(HashtagImage, image);
                 }

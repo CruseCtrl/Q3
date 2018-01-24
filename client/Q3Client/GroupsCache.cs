@@ -55,6 +55,7 @@ namespace Q3Client
                         .Select(r => new { Name = (string)r.Properties["cn"][0], Path = (string)r.Properties["distinguishedName"][0] })
                         .Where(r => !r.Path.ToLowerInvariant().Contains("security groups") || r.Name.StartsWith("Softwire - ") || r.Name.StartsWith("Office - "))
                         .Select(s => s.Name)
+                        .Where(s => !s.StartsWith("Legacy -"))
                         .OrderBy(s => s)
                         .ToList();
                 this.Groups = newGroups;

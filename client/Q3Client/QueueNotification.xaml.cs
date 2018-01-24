@@ -115,7 +115,7 @@ namespace Q3Client
             if (hashtag != null)
             {
                 // BitmapImage here gives an odd error - https://wpfanimatedgif.codeplex.com/discussions/439040
-                var image = BitmapFrame.Create(new Uri("https://softwire.ontoast.io/hashtags/image/" + hashtag, UriKind.Absolute));
+                var image = BitmapFrame.Create(new Uri("https://ontoast-ghyston.azurewebsites.net/hashtags/image/" + hashtag, UriKind.Absolute));
 
                 ImageBehavior.SetAnimatedSource(HashtagImage, image);
             }
