@@ -75,7 +75,7 @@ namespace Q3Server
                 {
                     var queueToRemove = queues[id];
                     queueToRemove.Close();
-                    queues.Remove(id);                    
+                    queues.Remove(id);
                 }
             }
         }
