@@ -1,14 +1,10 @@
 ﻿using NLog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 
 namespace Q3Client
 {
