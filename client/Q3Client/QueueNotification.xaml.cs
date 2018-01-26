@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,12 +26,15 @@ namespace Q3Client
     {
         private readonly Queue queue;
         private readonly ChatControls chatControls;
+        private readonly UserConfig userConfig;
+        private Timer timer;
 
         public QueueNotification(Queue queue)
         {
             this.queue = queue;
             InitializeComponent();
 
+            userConfig = DataCache.Load<UserConfig>();
             this.DataContext = queue;
 
             QueueName.Text = queue.Name + " ";
@@ -53,6 +57,8 @@ namespace Q3Client
             this.OuterPanel.Children.Add(chatControls);
 
             MessagesChanged();
+
+            CheckFlashSetting();
         }
 
         private void ChatControlsOnMessageSubmitted(object sender, ChatControls.MessageEventArgs messageEventArgs)
@@ -244,6 +250,14 @@ namespace Q3Client
             var visibility = queue.Status == QueueStatus.Activated ? Visibility.Collapsed : Visibility.Visible;        
             MenuItem_StartQueue.Visibility = MenuItem_NagQueue.Visibility = visibility;
             MenuItem_ResetQueue.Visibility = queue.Status == QueueStatus.Activated ? Visibility.Visible : Visibility.Collapsed; ;
+        }
+
+        private void CheckFlashSetting()
+        {
+            if (!userConfig.AggressiveQueueNotifications)
+            {
+                timer = new Timer(obj => RaiseStopFlashEvent(), null, TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(-1));
+            }
         }
     }
 }
