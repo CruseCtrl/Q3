@@ -9,7 +9,7 @@
         <Style TargetType="q3Client:QueueNotification">
             <Setter Property="Background" Value="Transparent"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Status}" Value="Closed">
+                <DataTrigger Binding="{Binding Path=Queue.Status}" Value="Closed">
                     <Setter Property="Visibility" Value="Collapsed" />
                 </DataTrigger>
             </Style.Triggers>
@@ -17,7 +17,7 @@
         <Style TargetType="q3Client:AutoScrollViewer">
             <Setter Property="Visibility" Value="Collapsed"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=UserIsOnQueue}" Value="true">
+                <DataTrigger Binding="{Binding Path=Queue.UserIsOnQueue}" Value="true">
                     <Setter Property="Visibility" Value="Visible"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -25,7 +25,7 @@
         <Style x:Key="Background" TargetType="Grid">
             <Setter Property="Background" Value="{StaticResource BlueBackgroundBrush}"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                <DataTrigger Binding="{Binding Path=Queue.Status}" Value="Activated">
                     <Setter Property="Background" Value="{StaticResource GreenBackgroundBrush}" />
                     <DataTrigger.EnterActions>
                         <BeginStoryboard Name="ActivateStoryboard">
@@ -35,8 +35,8 @@
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
                 </DataTrigger>
-                <EventTrigger RoutedEvent="Loaded">
-                    <BeginStoryboard Name="LoadedStoryboard">
+                <EventTrigger RoutedEvent="q3Client:QueueNotification.FlashForever">
+                    <BeginStoryboard Name="FlashForeverStoryboard">
                         <Storyboard>
                             <ColorAnimation  By="#ccc" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" FillBehavior="Stop" AutoReverse="True"  Duration="0:0:1" RepeatBehavior="Forever" />
                         </Storyboard>
@@ -47,12 +47,12 @@
                 </EventTrigger>
                 <EventTrigger RoutedEvent="MouseLeftButtonUp">
                     <StopStoryboard BeginStoryboardName="FlashStoryboard"/>
-                    <StopStoryboard BeginStoryboardName="LoadedStoryboard"/>
+                    <StopStoryboard BeginStoryboardName="FlashForeverStoryboard"/>
                     <StopStoryboard BeginStoryboardName="ActivateStoryboard"/>
                 </EventTrigger>
                 <EventTrigger RoutedEvent="q3Client:QueueNotification.StopFlash">
                     <StopStoryboard BeginStoryboardName="FlashStoryboard"/>
-                    <StopStoryboard BeginStoryboardName="LoadedStoryboard"/>
+                    <StopStoryboard BeginStoryboardName="FlashForeverStoryboard"/>
                     <StopStoryboard BeginStoryboardName="ActivateStoryboard"/>
                 </EventTrigger>
 
@@ -65,12 +65,12 @@
             <Setter Property="Visibility" Value="Collapsed"></Setter>
 
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=UserIsOnQueue}" Value="true">
+                <DataTrigger Binding="{Binding Path=Queue.UserIsOnQueue}" Value="true">
                     <Setter Property="Content" Value="JOINED"></Setter>
                     <Setter Property="Visibility" Value="Visible"></Setter>
                 </DataTrigger>
 
-                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                <DataTrigger Binding="{Binding Path=Queue.Status}" Value="Activated">
                     <Setter Property="Foreground" Value="{StaticResource GreenBackgroundBrush}" />
                     <Setter Property="Content" Value="STARTED"></Setter>
                     <Setter Property="Visibility" Value="Visible"></Setter>
@@ -82,7 +82,7 @@
             <Setter Property="Background" Value="{StaticResource BlueHighlightBrush}"></Setter>
             <Setter Property="Foreground" Value="{StaticResource BlueBackgroundBrush}"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                <DataTrigger Binding="{Binding Path=Queue.Status}" Value="Activated">
                     <Setter Property="Background" Value="{StaticResource GreenHighlightBrush}"></Setter>
                     <Setter Property="Foreground" Value="{StaticResource GreenBackgroundBrush}"></Setter>
                 </DataTrigger>
@@ -97,7 +97,7 @@
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Foreground" Value="White"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                <DataTrigger Binding="{Binding Path=Queue.Status}" Value="Activated">
                     <Setter Property="Background" Value="{StaticResource GreenHighlightBrush}" />
                 </DataTrigger>
             </Style.Triggers>
@@ -106,7 +106,7 @@
         <Style TargetType="Button" x:Key="MutedButton" BasedOn="{StaticResource Button}">
             <Setter Property="Foreground" Value="{StaticResource BlueLowlightBrush}"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                <DataTrigger Binding="{Binding Path=Queue.Status}" Value="Activated">
                     <Setter Property="Foreground" Value="{StaticResource GreenLowlightBrush}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -115,7 +115,7 @@
         <Style TargetType="Button" x:Key="LeaveButton" BasedOn="{StaticResource MutedButton}">
             <Setter Property="Visibility" Value="Visible"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=UserIsOnQueue}" Value="false">
+                <DataTrigger Binding="{Binding Path=Queue.UserIsOnQueue}" Value="false">
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -123,7 +123,7 @@
         <Style TargetType="Button" x:Key="MessageButton" BasedOn="{StaticResource Button}">
             <Setter Property="Visibility" Value="Visible"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=UserIsOnQueue}" Value="false">
+                <DataTrigger Binding="{Binding Path=Queue.UserIsOnQueue}" Value="false">
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -140,7 +140,7 @@
         <Style TargetType="Button" x:Key="JoinButton" BasedOn="{StaticResource Button}">
             <Setter Property="Visibility" Value="Visible"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=UserIsOnQueue}" Value="true">
+                <DataTrigger Binding="{Binding Path=Queue.UserIsOnQueue}" Value="true">
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -148,7 +148,7 @@
         <Style TargetType="Button" x:Key="HideButton" BasedOn="{StaticResource JoinButton}">
             <Setter Property="Foreground" Value="{StaticResource BlueLowlightBrush}"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                <DataTrigger Binding="{Binding Path=Queue.Status}" Value="Activated">
                     <Setter Property="Foreground" Value="{StaticResource GreenLowlightBrush}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -157,10 +157,10 @@
         <Style TargetType="Button" x:Key="ActivateButton" BasedOn="{StaticResource Button}">
             <Setter Property="Visibility" Value="Visible"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                <DataTrigger Binding="{Binding Path=Queue.Status}" Value="Activated">
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=UserOwnsQueue}" Value="false">
+                <DataTrigger Binding="{Binding Path=Queue.UserOwnsQueue}" Value="false">
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -169,7 +169,7 @@
         <Style TargetType="Expander">
             <Setter Property="Visibility" Value="Visible"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                <DataTrigger Binding="{Binding Path=Queue.Status}" Value="Activated">
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -178,7 +178,7 @@
         <Style TargetType="Run" x:Key="GroupStyle">
             <Setter Property="Foreground" Value="{StaticResource BlueHighlightBrush}"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Status}" Value="Activated">
+                <DataTrigger Binding="{Binding Path=Queue.Status}" Value="Activated">
                     <Setter Property="Foreground" Value="{StaticResource GreenHighlightBrush}"></Setter>
                 </DataTrigger>
             </Style.Triggers>

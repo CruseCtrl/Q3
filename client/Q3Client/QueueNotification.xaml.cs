@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WpfAnimatedGif;
 
 namespace Q3Client
@@ -27,7 +17,6 @@ namespace Q3Client
         private readonly Queue queue;
         private readonly ChatControls chatControls;
         private readonly UserConfig userConfig;
-        private Timer timer;
 
         public QueueNotification(Queue queue)
         {
@@ -35,7 +24,8 @@ namespace Q3Client
             InitializeComponent();
 
             userConfig = DataCache.Load<UserConfig>();
-            this.DataContext = queue;
+            var viewModel = new QueueNotificationViewModel {Queue = queue, UserConfig = userConfig};
+            this.DataContext = viewModel;
 
             QueueName.Text = queue.Name + " ";
             if (!string.IsNullOrWhiteSpace(queue.RestrictToGroup))
@@ -57,8 +47,6 @@ namespace Q3Client
             this.OuterPanel.Children.Add(chatControls);
 
             MessagesChanged();
-
-            CheckFlashSetting();
         }
 
         private void ChatControlsOnMessageSubmitted(object sender, ChatControls.MessageEventArgs messageEventArgs)
@@ -100,6 +88,14 @@ namespace Q3Client
 
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            if (userConfig.AggressiveQueueNotifications)
+            {
+                RaiseFlashForeverEventEvent();
+            }
+            else
+            {
+                RaiseFlashEvent();
+            }
             await UpdateHashtagImage();
         }
 
@@ -113,6 +109,10 @@ namespace Q3Client
             MainGrid.RaiseEvent(new RoutedEventArgs(StopFlashEvent));
         }
 
+        private void RaiseFlashForeverEventEvent()
+        {
+            MainGrid.RaiseEvent(new RoutedEventArgs(FlashForeverEvent));
+        }
 
         private async Task UpdateHashtagImage()
         {
@@ -169,6 +169,7 @@ namespace Q3Client
 
         public static readonly RoutedEvent FlashEvent = EventManager.RegisterRoutedEvent("Flash", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(QueueNotification));
         public static readonly RoutedEvent StopFlashEvent = EventManager.RegisterRoutedEvent("StopFlash", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(QueueNotification));
+        public static readonly RoutedEvent FlashForeverEvent = EventManager.RegisterRoutedEvent("FlashForever", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(QueueNotification));
 
         public event RoutedEventHandler Flash
         {
@@ -193,6 +194,19 @@ namespace Q3Client
             remove
             {
                 this.RemoveHandler(FlashEvent, value);
+            }
+        }
+
+        public event RoutedEventHandler FlashForever
+        {
+            add
+            {
+                this.AddHandler(FlashForeverEvent, value);
+            }
+
+            remove
+            {
+                this.RemoveHandler(FlashForeverEvent, value);
             }
         }
 
@@ -250,14 +264,6 @@ namespace Q3Client
             var visibility = queue.Status == QueueStatus.Activated ? Visibility.Collapsed : Visibility.Visible;        
             MenuItem_StartQueue.Visibility = MenuItem_NagQueue.Visibility = visibility;
             MenuItem_ResetQueue.Visibility = queue.Status == QueueStatus.Activated ? Visibility.Visible : Visibility.Collapsed; ;
-        }
-
-        private void CheckFlashSetting()
-        {
-            if (!userConfig.AggressiveQueueNotifications)
-            {
-                timer = new Timer(obj => RaiseStopFlashEvent(), null, TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(-1));
-            }
         }
     }
 }

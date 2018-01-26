@@ -127,6 +127,7 @@
     <Compile Include="QueueNotification.xaml.cs">
       <DependentUpon>QueueNotification.xaml</DependentUpon>
     </Compile>
+    <Compile Include="QueueNotificationViewModel.cs" />
     <Compile Include="QueueStatus.cs" />
     <Compile Include="QueueUpdater.cs" />
     <Compile Include="StartupRegistration.cs" />
