@@ -28,9 +28,11 @@
             <Button.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Restore Hidden Queues" Click="ShowHidden_Click"/>
-                    <MenuItem Header="Start when windows starts" IsChecked="{Binding Path=RunOnWindowsStart, Mode=OneWay}" Click="MenuItem_Click" />
-                    <MenuItem Header="Persistent new queue notifications" IsChecked="{Binding Path=PersistNewQueueNotifications, Mode=OneWay}" Click="PersistNotificationsMenuItem_Click" ToolTip="When a queue starts, do you want Q3 to flash briefly or remain on screen until you dismiss it"/>
                     <MenuItem Header="Quit" Click="Quit_Click"/>
+                    <Separator />
+                    <MenuItem Header="Start when windows starts" IsChecked="{Binding Path=RunOnWindowsStart, Mode=OneWay}" Click="MenuItem_Click" />
+                    <MenuItem Header="Persistent queue notifications" IsChecked="{Binding Path=PersistNewQueueNotifications, Mode=OneWay}" Click="PersistNotificationsMenuItem_Click" ToolTip="When a queue starts, do you want Q3 to flash briefly or remain on screen until you dismiss it"/>
+                    <MenuItem Header="Mute new queue notifications" IsChecked="{Binding Path=MuteNewQueueNotifications, Mode=OneWay}" Click="MuteNewQueueNotificationsMenuItem_Click" ToolTip="New queues will no longer pop up on screen"/>
                 </ContextMenu>
             </Button.ContextMenu>            
         </Button>

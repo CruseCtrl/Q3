@@ -19,6 +19,7 @@ namespace Q3Client
         private readonly ObservableCollection<Queue> queues = new ObservableCollection<Queue>();
         private Dictionary<int, Queue> queuesById = new Dictionary<int, Queue>();
         private User user;
+        private UserConfig userConfig;
 
         private QueueList queueList;
         private DisplayTimer alertDisplayTimer;
@@ -30,7 +31,9 @@ namespace Q3Client
             this.hub = hub;
             this.user = user;
 
-            this.groupsCache = groupsCache;           
+            this.groupsCache = groupsCache;
+
+            userConfig = DataCache.Load<UserConfig>();
 
             queueList = new QueueList(hub, groupsCache);
             queueList.Show();
@@ -125,7 +128,10 @@ namespace Q3Client
                 queueList.QueuesPanel.Children.Insert(0, window);
             });
 
-            alertDisplayTimer.ShowAlert();
+            if (!userConfig.MuteNewQueueNotifications)
+            {
+                alertDisplayTimer.ShowAlert();
+            }
         }
 
         public void UpdateQueue(Queue serverQueue)
@@ -165,7 +171,10 @@ namespace Q3Client
                 var q = queuesById[queueId];
                 if (!q.Members.Contains(user))
                 {
-                    alertDisplayTimer.ShowAlert();
+                    if (!userConfig.MuteNewQueueNotifications)
+                    {
+                        alertDisplayTimer.ShowAlert();
+                    }
                     q.Nag();
                 }
             }

@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Q3Client
 {
@@ -98,15 +87,11 @@ namespace Q3Client
             ParentQueueList.Close();
         }
 
-        public bool RunOnWindowsStart
-        {
-            get { return StartupRegistration.IsRegisteredForStartup; }
-        }
+        public bool RunOnWindowsStart => StartupRegistration.IsRegisteredForStartup;
 
-        public bool PersistNewQueueNotifications
-        {
-            get { return userConfig.PersistentNewQueueNotifications; }
-        }
+        public bool PersistNewQueueNotifications => userConfig.PersistentNewQueueNotifications;
+
+        public bool MuteNewQueueNotifications => userConfig.MuteNewQueueNotifications;
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -118,6 +103,12 @@ namespace Q3Client
         private void PersistNotificationsMenuItem_Click(object sender, RoutedEventArgs e)
         {
             userConfig.PersistentNewQueueNotifications = ((MenuItem)sender).IsChecked = !userConfig.PersistentNewQueueNotifications;
+            DataCache.Save(userConfig);
+        }
+
+        private void MuteNewQueueNotificationsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            userConfig.MuteNewQueueNotifications = ((MenuItem)sender).IsChecked = !userConfig.MuteNewQueueNotifications;
             DataCache.Save(userConfig);
         }
     }
