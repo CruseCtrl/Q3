@@ -97,6 +97,9 @@ namespace Q3Client
 
         private bool HasAnotherInstanceRunning()
         {
+#if DEBUG
+            return false;
+#else
             var currentDistinguishedName = UserPrincipal.Current.DistinguishedName;
             singleInstanceMutex = singleInstanceMutex ?? new Mutex(true, currentDistinguishedName + ":{411C91EA-7B41-49DB-8CB9-20D5B58A75F7}");
             try
@@ -108,6 +111,7 @@ namespace Q3Client
                 mutexAcquired = true;
             }
             return !mutexAcquired; // If mutex is acquired, no other instance is running
+#endif
         }
 
         protected override void OnExit(ExitEventArgs e)
