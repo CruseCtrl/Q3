@@ -100,7 +100,7 @@ namespace Q3Client
 #if DEBUG
             return false;
 #else
-            var currentDistinguishedName = UserPrincipal.Current.DistinguishedName;
+            var currentDistinguishedName = "poolq3";
             singleInstanceMutex = singleInstanceMutex ?? new Mutex(true, currentDistinguishedName + ":{411C91EA-7B41-49DB-8CB9-20D5B58A75F7}");
             try
             {
@@ -236,19 +236,19 @@ namespace Q3Client
                 user = DataCache.Load<User>();
             }
 
-#if DEBUG 
-            user = user ?? new User();
-            var suffix = (DateTime.Now.Ticks % 100).ToString();
-            var alphabet = "abcdefghijklmnopqrstuvwxyz";
-            user.UserName = user.UserName + suffix;
-            user.FullName = user.FullName + suffix;
-
-            var first = (int) (DateTime.Now.Ticks%26);
-            var second = (int) ((DateTime.Now.Ticks/26) %26);
-
-            user.EmailAddress = alphabet[first] + "." + alphabet[second] + "@softwire.com";
-
-#endif
+//#if DEBUG 
+//            user = user ?? new User();
+//            var suffix = (DateTime.Now.Ticks % 100).ToString();
+//            var alphabet = "abcdefghijklmnopqrstuvwxyz";
+//            user.UserName = user.UserName + suffix;
+//            user.FullName = user.FullName + suffix;
+//
+//            var first = (int) (DateTime.Now.Ticks%26);
+//            var second = (int) ((DateTime.Now.Ticks/26) %26);
+//
+//            user.EmailAddress = alphabet[first] + "." + alphabet[second] + "@softwire.com";
+//
+//#endif
             return user;
         }
 

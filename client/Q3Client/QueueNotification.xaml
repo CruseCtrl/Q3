@@ -15,7 +15,7 @@
             </Style.Triggers>
         </Style>
         <Style TargetType="q3Client:AutoScrollViewer">
-            <Setter Property="Visibility" Value="Collapsed"></Setter>
+            <Setter Property="Visibility" Value="Visible"></Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=UserIsOnQueue}" Value="true">
                     <Setter Property="Visibility" Value="Visible"></Setter>
@@ -113,7 +113,7 @@
             <Setter Property="Visibility" Value="Visible"></Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=UserIsOnQueue}" Value="false">
-                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                    <Setter Property="Visibility" Value="Visible"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>

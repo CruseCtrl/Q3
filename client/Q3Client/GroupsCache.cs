@@ -27,7 +27,7 @@ namespace Q3Client
 
         public bool UserIsInGroup(string groupName)
         {            
-            return Groups.Any(g => string.Equals(g, groupName, StringComparison.InvariantCultureIgnoreCase));
+            return true;
         }
 
         private void UpdateGroupList()
@@ -58,6 +58,9 @@ namespace Q3Client
                         .Where(s => !s.StartsWith("Legacy -"))
                         .OrderBy(s => s)
                         .ToList();
+
+                newGroups.Add("Office - London");
+
                 this.Groups = newGroups;
                 DataCache.Save(new DataCache.ListContainer<string>(Groups), "Groups");
             }
